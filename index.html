@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BOXIGOL — Mystery Boxes de camisetas</title>
+  <link rel="stylesheet" href="style-index.css" />
+  <style>
+    body {
+      opacity: 0;
+      filter: blur(12px);
+      transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), filter 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    body.fade-out {
+      opacity: 0;
+      filter: blur(12px);
+    }
+    body.fade-in {
+      opacity: 1;
+      filter: blur(0);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.png" alt="BOXIGOL Logo" width="160" height="48">
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienesomos.html">Quienes somos</a></li>
+          <li><a href="comocomprar.html">Cómo comprar</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+          <div id="cartModal" class="modal" aria-hidden="true">
+            <div class="modal-content">
+              <button class="modal-close" id="closeCart">x</button>
+              <div class="modal-body">
+                <div class="modal-info">
+                  <h2>Carrito</h2>
+                  <ul id="cartList"></ul>
+                  <div id="cartTotal" style="margin:18px 0 0 0;font-weight:700;font-size:1.1rem;text-align:right;"></div>
+                  <div id="cartActions" style="margin-top:20px;">
+                    <button id="checkoutBtn" class="btn primary" style="width:100%;padding:18px 0;font-size:1.18rem;margin-bottom:10px;display:flex;justify-content:center;align-items:center;">Finalizar compra</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero full-hero">
+    <a href="#" id="heroBgLink" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:auto;opacity:0.5;display:none;">
+      <img id="heroBgImg" src="assets/images/hero.png" alt="Fondo Hero" style="width:100%;height:100%;object-fit:cover;">
+    </a>
+    <div class="hero-overlay" style="position:relative;z-index:1;">
+      <h1>
+        Descubrí la <span class="highlight">Ultimate</span> Mystery Box de Fútbol
+        <div class="cta-row center-cta">
+          <a href="#inicio" class="btn primary" id="scrollToProductos">Comprar Mystery Boxes</a>
+          <a href="comocomprar.html" class="btn primary">Más info</a>
+        </div>
+      </h1>
+      <p>Unbox camisetas exclusivas de Argentina y el mundo.</p>
+    </div>
+  </section>
+
+  <main class="container">
+  <h2 id="inicio">Nuestras Cajas</h2>
+    <div class="product-grid">
+      <article class="product-card" data-id="comun">
+        <img src="assets/images/comun.jpeg" alt="Caja Común">
+        <h3>Caja Común</h3>
+        <span class="price">$20.000
+        </span>
+        <button class="btn primary" data-action="add" data-product='{"id":"comun","title":"Caja Común","price":20000}'>Comprar</button>
+      </article>
+      <article class="product-card" data-id="rara">
+        <img src="assets/images/rara.jpeg" alt="Caja Rara">
+        <h3>Caja Rara</h3>
+        <span class="price">$38.000</span>
+        <button class="btn primary" data-action="add" data-product='{"id":"rara","title":"Caja Rara","price":38000}'>Comprar</button>
+      </article>
+      <article class="product-card" data-id="epica">
+        <img src="assets/images/epica.jpeg" alt="Caja Épica">
+        <h3>Caja Épica</h3>
+        <span class="price">$53.000</span>
+        <button class="btn primary" data-action="add" data-product='{"id":"epica","title":"Caja Épica","price":53000}'>Comprar</button>
+      </article>
+      <article class="product-card" data-id="mitica">
+        <img src="assets/images/mitica.jpeg" alt="Caja Mítica">
+        <h3>Caja Mítica</h3>
+        <span class="price">$70.000</span>
+        <button class="btn primary" data-action="add" data-product='{"id":"mitica","title":"Caja Mítica","price":70000}'>Comprar</button>
+      </article>
+      <article class="product-card" data-id="legendaria">
+        <img src="assets/images/legendaria.jpeg" alt="Caja Legendaria">
+        <h3>Caja Legendaria</h3>
+        <span class="price">$105.000</span>
+        <button class="btn primary" data-action="add" data-product='{"id":"legendaria","title":"Caja Legendaria","price":105000}'>Comprar</button>
+      </article>
+      <article class="product-card" data-id="exclusiva">
+        <img src="assets/images/exclusiva.jpeg" alt="Pack 2 Cajas Exclusivas">
+        <h3>Pack 2 Cajas Exclusivas</h3>
+        <span class="price">$145.000</span>
+        <button class="btn primary" data-action="add" data-product='{"id":"exclusiva","title":"Pack 2 Cajas Exclusivas","price":145000}'>Comprar</button>
+      </article>
+    </div>
+  </main>
+
+  <footer class="mega-footer">
+    <div class="container footer-grid">
+      <div><h4>Buscar tienda</h4><a href="#">Localizar</a></div>
+      <div><h4>Ayuda</h4><a href="#">Botón de arrepentimiento</a></div>
+      <div><h4>Acerca de BOXIGOL</h4><a href="quienesomos.html">Propósito</a></div>
+      <div><h4>Novedades</h4><a href="#">Promociones</a></div>
+      <div class="socials"><a href="#">X</a><a href="#">FB</a><a href="#">YT</a><a href="#">IG</a></div>
+    </div>
+    <p class="legal">© <span id="year"></span> BOXIGOL. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script>
+    // Fade in on load
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('fade-in');
+      // Smooth scroll for 'Comprar Mystery Boxes' button
+      var scrollBtn = document.getElementById('scrollToProductos');
+      if (scrollBtn) {
+        scrollBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.getElementById('inicio');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+    });
+
+    // Fade out on navigation
+    document.querySelectorAll('a').forEach(function(link) {
+      if (link.target === '_blank' || link.href.startsWith('mailto:') || link.id === 'scrollToProductos') return;
+      link.addEventListener('click', function(e) {
+        if (link.href && link.href !== window.location.href) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(function() {
+            window.location = link.href;
+          }, 400);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

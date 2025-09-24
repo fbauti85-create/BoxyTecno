@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quienes somos — BOXIGOL</title>
+  <link rel="stylesheet" href="style-QuienesSomos.css">
+  <style>
+    body {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+    body.fade-in {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner" style="display:flex;align-items:center;justify-content:space-between;">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.png" alt="BOXIGOL Logo" width="160" height="48">
+      </a>
+      <nav class="main-nav" style="flex:1;display:flex;justify-content:center;">
+        <ul style="display:flex;gap:40px;list-style:none;margin:0;padding:0;">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienesomos.html">Quienes somos</a></li>
+          <li><a href="comocomprar.html">Cómo comprar</a></li>
+        </ul>
+      </nav>
+      <!-- header-actions eliminado -->
+    </div>
+  </header>
+
+  <main class="container quienes">
+    <article class="who-grid">
+      
+      <div class="who-text">
+        <h1>Quienes somos</h1>
+        <p>FootballBox es el principal destino de auténticas cajas misteriosas de camisetas de fútbol, especializadas en camisetas raras y exclusivas de Argentina y de todo el mundo. Fundada por apasionados del fútbol y coleccionistas, entendemos la emoción de descubrir esa camiseta perfecta – ya sea una camiseta vintage de la selección argentina, una camiseta de visitante Boca Juniors de edición limitada o una rara camiseta de la final de la Liga de Campeones. Nuestro concepto Mystery Box lleva la emoción de coleccionar sorpresas a los fanáticos del fútbol de todo el mundo. Cada caja cuidadosamente seleccionada contiene de 2 a 5 camisetas auténticas, con el potencial de incluir piezas vintage raras, ediciones especiales y diseños difíciles de encontrar que normalmente costarían cientos de dólares individualmente. Trabajamos directamente con distribuidores autorizados, coleccionistas vintage y tiendas oficiales del club para garantizar que cada camiseta en nuestras cajas sea 100% auténtica. Nuestro equipo de expertos en recuerdos de fútbol inspecciona personalmente cada artículo antes de incluirlo en nuestras Cajas Misteriosas.</p>
+        <h3>Nuestra misión</h3>
+        <p>Hacer llegar la emoción del fútbol a través de cajas sorpresa que ofrezcan valor y sorpresa.</p>
+
+        <h3>Valores</h3>
+        <ul>
+          <li>Transparencia en probabilidades y envíos.</li>
+          <li>Calidad y control de stock.</li>
+          <li>Atención rápida y devoluciones claras.</li>
+        </ul>
+
+        <h3>Contacto</h3>
+        <p>Email: <a href="mailto:contacto@boxigol.example">contacto@boxigol.example</a></p>
+        <p>Instagram: <a href="#" rel="noopener">@boxigol</a></p>
+      </div>
+    </article>
+  </main>
+
+<footer class="mega-footer">
+    <div class="container footer-grid">
+      <div><h4>Buscar tienda</h4><a href="#">Localizar</a></div>
+      <div><h4>Ayuda</h4><a href="#">Botón de arrepentimiento</a></div>
+      <div><h4>Acerca de BOXIGOL</h4><a href="quienesomos.html">Propósito</a></div>
+      <div><h4>Novedades</h4><a href="#">Promociones</a></div>
+      <div class="socials"><a href="#">X</a><a href="#">FB</a><a href="#">YT</a><a href="#">IG</a></div>
+    </div>
+    <p class="legal">© <span id="year"></span> BOXIGOL. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // Fade in on load
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('fade-in');
+      document.getElementById('year2').textContent = new Date().getFullYear();
+    });
+
+    // Fade out on navigation
+    document.querySelectorAll('a').forEach(function(link) {
+      if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+      link.addEventListener('click', function(e) {
+        if (link.href && link.href !== window.location.href) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(function() {
+            window.location = link.href;
+          }, 400);
+        }
+      });
+    });
+
+    // --- Carrito ---
+    const cart = [];
+    const cartCount = document.getElementById('cartCount');
+    const cartModal = document.getElementById('cartModal');
+    const cartList = document.getElementById('cartList');
+    const cartBtn = document.getElementById('cartBtn');
+    const closeCart = document.getElementById('closeCart');
+    const cartTotal = document.getElementById('cartTotal');
+    function updateCartCount() {
+      const total = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCount.textContent = total;
+    }
+    function renderCart() {
+      cartList.innerHTML = '';
+      let totalPrice = 0;
+      if (cart.length === 0) {
+        cartList.innerHTML = '<li>El carrito está vacío.</li>';
+        cartList.innerHTML += '<li style="color:#888;font-size:0.98rem;margin-top:8px;">Solo puedes agregar productos desde la página de <a href=\"index.html\" style=\"color:var(--accent);text-decoration:underline;\">Inicio</a>.</li>';
+        cartTotal.textContent = '';
+        return;
+      }
+      cart.forEach((item, idx) => {
+        const li = document.createElement('li');
+        li.style.display = 'flex';
+        li.style.justifyContent = 'space-between';
+        li.style.alignItems = 'center';
+        li.style.gap = '8px';
+        li.innerHTML = `<span>${item.title} x${item.qty} ($${item.price * item.qty})</span>`;
+        totalPrice += item.price * item.qty;
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Eliminar';
+        removeBtn.className = 'btn ghost';
+        removeBtn.style.fontSize = '0.9rem';
+        removeBtn.onclick = () => {
+          cart.splice(idx, 1);
+          updateCartCount();
+          renderCart();
+        };
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
+      });
+      cartTotal.textContent = `Total: $${totalPrice}`;
+    }
+    function addToCart(product) {
+      const existing = cart.find(p => p.id === product.id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      updateCartCount();
+      renderCart();
+      alert(product.title + " agregado al carrito!");
+    }
+    document.body.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action="add"]');
+      if (!btn) return;
+      const product = JSON.parse(btn.dataset.product);
+      addToCart(product);
+    });
+    cartBtn.addEventListener('click', () => {
+      renderCart();
+      cartModal.setAttribute('aria-hidden', 'false');
+    });
+    closeCart.addEventListener('click', () => {
+      cartModal.setAttribute('aria-hidden', 'true');
+    });
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+          alert('El carrito está vacío.');
+          return;
+        }
+        alert('¡Gracias por tu compra!');
+        cart.length = 0;
+        updateCartCount();
+        renderCart();
+        cartModal.setAttribute('aria-hidden', 'true');
+      });
+    }
+  </script>
+</body>
+</html>

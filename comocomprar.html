@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo comprar — BOXIGOL</title>
+  <link rel="stylesheet" href="style-ComoComprar.css">
+  <style>
+    body {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+    body.fade-in {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner" style="display:flex;align-items:center;justify-content:space-between;">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.png" alt="BOXIGOL Logo" width="160" height="48">
+      </a>
+      <nav class="main-nav" style="flex:1;display:flex;justify-content:center;">
+        <ul style="display:flex;gap:40px;list-style:none;margin:0;padding:0;">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="quienesomos.html">Quienes somos</a></li>
+          <li><a href="comocomprar.html">Cómo comprar</a></li>
+        </ul>
+      </nav>
+      <!-- header-actions eliminado -->
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Cómo comprar</h1>
+    <ol class="steps">
+      <li><strong>Elegí tu caja:</strong> Común, Rara, Épica, Mítica, Legendaria o Exclusiva.</li>
+      <li><strong>Agregala al carrito:</strong> Haz clic en “Comprar” y revisá tu carrito en la esquina superior.</li>
+      <li><strong>Completá tus datos:</strong> Nombre, dirección y método de contacto.</li>
+      <li><strong>Seleccioná el medio de pago:</strong> MercadoPago, tarjeta de crédito/débito o transferencia bancaria.</li>
+      <li><strong>Confirmá la compra:</strong> Te llegará un email con el detalle y número de seguimiento.</li>
+    </ol>
+
+    <h2>Envíos</h2>
+    <p>Realizamos envíos a todo Argentina mediante Correo Argentino y Andreani.  
+       Tiempo estimado: 3 a 7 días hábiles según la localidad.  
+       Costo: varía por código postal (se calcula automáticamente al pagar).</p>
+
+    <h2>Devoluciones</h2>
+    <p>Si tu producto llega dañado o no corresponde, tenés hasta 48 h para reclamar.  
+       Escribinos a <a href="mailto:contacto@boxigol.example">contacto@boxigol.example</a> para iniciar el proceso.</p>
+  </main>
+
+<footer class="mega-footer">
+    <div class="container footer-grid">
+      <div><h4>Buscar tienda</h4><a href="#">Localizar</a></div>
+      <div><h4>Ayuda</h4><a href="#">Botón de arrepentimiento</a></div>
+      <div><h4>Acerca de BOXIGOL</h4><a href="quienesomos.html">Propósito</a></div>
+      <div><h4>Novedades</h4><a href="#">Promociones</a></div>
+      <div class="socials"><a href="#">X</a><a href="#">FB</a><a href="#">YT</a><a href="#">IG</a></div>
+    </div>
+    <p class="legal">© <span id="year"></span> BOXIGOL. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // Fade in on load
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('fade-in');
+      document.getElementById('year2').textContent = new Date().getFullYear();
+    });
+
+    // Fade out on navigation
+    document.querySelectorAll('a').forEach(function(link) {
+      if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+      link.addEventListener('click', function(e) {
+        if (link.href && link.href !== window.location.href) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(function() {
+            window.location = link.href;
+          }, 400);
+        }
+      });
+    });
+
+    // --- Carrito ---
+    const cart = [];
+    const cartCount = document.getElementById('cartCount');
+    const cartModal = document.getElementById('cartModal');
+    const cartList = document.getElementById('cartList');
+    const cartBtn = document.getElementById('cartBtn');
+    const closeCart = document.getElementById('closeCart');
+    const cartTotal = document.getElementById('cartTotal');
+    function updateCartCount() {
+      const total = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCount.textContent = total;
+    }
+    function renderCart() {
+      cartList.innerHTML = '';
+      let totalPrice = 0;
+      if (cart.length === 0) {
+        cartList.innerHTML = '<li>El carrito está vacío.</li>';
+        cartList.innerHTML += '<li style="color:#888;font-size:0.98rem;margin-top:8px;">Solo puedes agregar productos desde la página de <a href=\"index.html\" style=\"color:var(--accent);text-decoration:underline;\">Inicio</a>.</li>';
+        cartTotal.textContent = '';
+        return;
+      }
+      cart.forEach((item, idx) => {
+        const li = document.createElement('li');
+        li.style.display = 'flex';
+        li.style.justifyContent = 'space-between';
+        li.style.alignItems = 'center';
+        li.style.gap = '8px';
+        li.innerHTML = `<span>${item.title} x${item.qty} ($${item.price * item.qty})</span>`;
+        totalPrice += item.price * item.qty;
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Eliminar';
+        removeBtn.className = 'btn ghost';
+        removeBtn.style.fontSize = '0.9rem';
+        removeBtn.onclick = () => {
+          cart.splice(idx, 1);
+          updateCartCount();
+          renderCart();
+        };
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
+      });
+      cartTotal.textContent = `Total: $${totalPrice}`;
+    }
+    function addToCart(product) {
+      const existing = cart.find(p => p.id === product.id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      updateCartCount();
+      renderCart();
+      alert(product.title + " agregado al carrito!");
+    }
+    document.body.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action="add"]');
+      if (!btn) return;
+      const product = JSON.parse(btn.dataset.product);
+      addToCart(product);
+    });
+    cartBtn.addEventListener('click', () => {
+      renderCart();
+      cartModal.setAttribute('aria-hidden', 'false');
+    });
+    closeCart.addEventListener('click', () => {
+      cartModal.setAttribute('aria-hidden', 'true');
+    });
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+          alert('El carrito está vacío.');
+          return;
+        }
+        alert('¡Gracias por tu compra!');
+        cart.length = 0;
+        updateCartCount();
+        renderCart();
+        cartModal.setAttribute('aria-hidden', 'true');
+      });
+    }
+  </script>
+</body>
+</html>
